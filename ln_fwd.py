@@ -1,8 +1,9 @@
 import os
 workspace_dir = os.environ.get('WORKSPACE_DIR', '/home')
+use_cudnn_ln = os.environ.get('ENABLE_CUDNN_LAYER_NORM', 'false')
 os.environ['XLA_FLAGS'] = f' \
     --xla_gpu_graph_level=0 \
-    --xla_gpu_enable_cudnn_layer_norm=true \
+    --xla_gpu_enable_cudnn_layer_norm={use_cudnn_ln} \
     --xla_dump_hlo_as_html \
     --xla_dump_to={workspace_dir}/ln_fwd_dump \
 '

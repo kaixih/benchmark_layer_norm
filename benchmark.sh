@@ -1,4 +1,5 @@
 export WORKSPACE_DIR=/home
+export ENABLE_CUDNN_LAYER_NORM=${1:-false}
 cd $WORKSPACE_DIR/benchmark_layer_norm
 mkdir -p nsys/
 mkdir -p ln_fwd_dump/
