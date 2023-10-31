@@ -19,7 +19,7 @@ while IFS=' ' read -r hidden seqlen batch; do
   nsys stats -r cuda_gpu_kern_sum --force-overwrite true --force-export true -o nsys/result nsys/result.nsys-rep &> /dev/null
   sum=0
   count=0
-  tail -n +2 "nsys/result_cuda_gpu_kern_sum.csv" > nsys/result.csv
+  tail -n +2 "nsys/result_cuda_gpu_kern_sum.csv" > nsys/tmp.csv
   while read line; do
     instances=$(echo $line | awk -F ',' '{print $3}')
     med=$(echo $line | awk -F ',' '{print $5}')
@@ -27,7 +27,7 @@ while IFS=' ' read -r hidden seqlen batch; do
       sum=$(awk "BEGIN {printf \"%.2f\", $sum+$med}")
       count=$(($count+1))
     fi
-  done < "nsys/result.csv"
+  done < "nsys/tmp.csv"
   time=$(awk "BEGIN {printf \"%.2f\", $sum/1000}")
   echo "$hidden" "$seqlen" "$batch" "$time" ms "$count" fusions
 done < "$file"
