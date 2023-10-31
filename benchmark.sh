@@ -1,11 +1,17 @@
-cd /home/tmp/benchmark_layer_norm
+export WORKSPACE_DIR=/home
+cd $WORKSPACE_DIR/benchmark_layer_norm
+mkdir -p nsys/
+mkdir -p ln_fwd_dump/
 rm -rf nsys/*
+rm -rf ln_fwd_dump/*
 
-file="shapes1.txt"
+file="shapes.txt"
 if [ ! -f "$file" ]; then
   echo "File not found"
   exit 1
 fi
+
+export TF_CPP_MIN_LOG_LEVEL=0 TF_CPP_MIN_VLOG_LEVEL=0 TF_CPP_VMODULE=cudnn_norm_rewriter=4
 
 while IFS=' ' read -r hidden seqlen batch; do
   nsys profile -o nsys/result -f true python ln_fwd.py "$hidden" "$seqlen" "$batch" &> /dev/null

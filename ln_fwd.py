@@ -1,8 +1,10 @@
 import os
-os.environ['XLA_FLAGS'] = ' \
+workspace_dir = os.environ.get('WORKSPACE_DIR', '/home')
+os.environ['XLA_FLAGS'] = f' \
     --xla_gpu_graph_level=0 \
+    --xla_gpu_enable_cudnn_layer_norm=true \
     --xla_dump_hlo_as_html \
-    --xla_dump_to=/home/tmp/benchmark_layer_norm/ln_fwd_dump \
+    --xla_dump_to={workspace_dir}/ln_fwd_dump \
 '
 
 import sys
@@ -42,10 +44,10 @@ repeats = 100
 start = time.time()
 for i in range(repeats):
   outputs = infer_fn(init_vars, inputs)
-  print("XXX", i, outputs)
 outputs.block_until_ready()
 end = time.time()
 elapsed_time = (end - start) / repeats * 1000
+# This elapsed_time is inaccurate. Don't use it.
 print(f"Mean time: {elapsed_time} ms")
 
 
