@@ -5,7 +5,7 @@ os.environ['XLA_FLAGS'] = f' \
     --xla_gpu_graph_level=0 \
     --xla_gpu_enable_cudnn_layer_norm={use_cudnn_ln} \
     --xla_dump_hlo_as_html \
-    --xla_dump_to={workspace_dir}/ln_fwd_dump \
+    --xla_dump_to={workspace_dir}/benchmark_layer_norm/ln_fwd_dump \
 '
 
 import sys
