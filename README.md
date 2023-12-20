@@ -1,8 +1,11 @@
 # Usage
 
 ```bash
-bash benchmark.sh # benchmark the XLA layer norm
-bash benchmark.sh true  # benchmark the XLA + cudnn layer norm backend
+# usage: bash benchmark.sh <use_cudnn> <ln_direction>
+bash benchmark.sh false fwd
+bash benchmark.sh true  fwd
+bash benchmark.sh false bwd
+bash benchmark.sh true  bwd
 ```
 
 # Note

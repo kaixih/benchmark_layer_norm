@@ -1,10 +1,11 @@
-export WORKSPACE_DIR=/home
+export WORKSPACE_DIR=/home/repo
 export ENABLE_CUDNN_LAYER_NORM=${1:-false}
 cd $WORKSPACE_DIR/benchmark_layer_norm
+LN_DIR=${2:-fwd}
 mkdir -p nsys/
-mkdir -p ln_fwd_dump/
+mkdir -p ln_${LN_DIR}_dump/
 rm -rf nsys/*
-rm -rf ln_fwd_dump/*
+rm -rf ln_${LN_DIR}_dump/*
 
 file="shapes.txt"
 if [ ! -f "$file" ]; then
@@ -15,7 +16,7 @@ fi
 export TF_CPP_MIN_LOG_LEVEL=0 TF_CPP_MIN_VLOG_LEVEL=0 TF_CPP_VMODULE=cudnn_norm_rewriter=4
 
 while IFS=' ' read -r hidden seqlen batch; do
-  nsys profile -o nsys/result -f true python ln_fwd.py "$hidden" "$seqlen" "$batch" &> /dev/null
+  nsys profile -o nsys/result -f true python ln_${LN_DIR}.py "$hidden" "$seqlen" "$batch" &> /dev/null
   nsys stats -r cuda_gpu_kern_sum --force-overwrite true --force-export true -o nsys/result nsys/result.nsys-rep &> /dev/null
   sum=0
   count=0
