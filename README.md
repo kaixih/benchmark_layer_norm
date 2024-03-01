@@ -2,10 +2,11 @@
 
 ```bash
 # usage: bash benchmark.sh <use_cudnn> <ln_direction>
-bash benchmark.sh false fwd
-bash benchmark.sh true  fwd
-bash benchmark.sh false bwd
-bash benchmark.sh true  bwd
+bash benchmark.sh false ln_fwd
+bash benchmark.sh true  ln_fwd
+bash benchmark.sh false ln_bwd
+bash benchmark.sh true  ln_bwd
+bash benchmark.sh false pallas_ln_fwd
 ```
 
 # Note
